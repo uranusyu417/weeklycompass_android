@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+    <string name="app_name">Weekly Compass for 7 Habits</string>
+    <string name="loading_db_err">Failed to get DATABASE version, will use default version 1!!</string>
+    <string name="role">  Role:      </string>
+    <string name="rock">  Big Rocks</string>
+    <string name="title">WEEKLY COMPASS</string>
+    <string name="date">  Date:</string>
+    <string name="subtitle">What is the most important thing I can do in this role this week?</string>
+    <string name="RABR">ROLES AND BIG ROCKS</string>
+    <string name="edit">EDIT</string>
+    <string name="cancel">CANCEL</string>
+    <string name="confirm">CONFIRM</string>
+    <string-array name="rock_state">
+        <item>Not Started</item>
+        <item>In Progress</item>
+        <item>Finished</item>
+    </string-array>
+    <string name="rock_title">Rock Title</string>
+    <string name="rock_status">Rock Status</string>
+    <string name="rock_content">Rock Detail</string>
+    <string name="add_to_this_week">ADD TO THIS WEEK PLAN</string>
+    <string name="choose_rock">Choose big rocks for this week</string>
+    <string name="choose_role">Choose roles for this week</string>
+    <string name="new_role">Create a new role</string>
+    <string name="new_rock">Create a new big rock</string>
+    <string name="no_big_rocks">No big rocks in this week, try Options Menu to add some?</string>
+    <string name="no_rocks">No any rocks, try Options Menu to add one?</string>
+    <string name="no_role">No any roles, try Options Menu to add one?</string>
+    <string name="create_role_tip">You can create a new role from Options Menu</string>
+    <string name="create_rock_tip">You can create a new rock from Options Menu</string>
+</resources>

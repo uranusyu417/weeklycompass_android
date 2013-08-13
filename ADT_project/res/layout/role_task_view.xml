@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" android:background="#ffffff">
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp" android:background="#75982a">
+
+        <TextView
+            android:id="@+id/textViewRoleId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView" android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/role" style="@style/role_name_font"/>
+
+        <TextView
+            android:id="@+id/textViewRoleName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="" style="@style/role_name_font"/>
+
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/listViewRocks"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+    </ListView>
+
+</LinearLayout>
