@@ -80,30 +80,74 @@ public class MainWindowActivity extends Activity {
 	{
 		TextView date = (TextView)findViewById(R.id.textViewDate);
 		Calendar cal = Calendar.getInstance();
+		//year
 		String dateStr = "  Date:"+
-		    cal.get(Calendar.YEAR)+"-"+cal.get(Calendar.MONTH)+"-"+cal.get(Calendar.DAY_OF_MONTH)+
-		    "  ";
+		    cal.get(Calendar.YEAR)+"-";
+		//month
+		switch(cal.get(Calendar.MONTH))
+		{
+		case Calendar.JANUARY:
+			dateStr += "1";
+			break;
+		case Calendar.FEBRUARY:
+			dateStr+="2";
+			break;
+		case Calendar.MARCH:
+			dateStr+="3";
+			break;
+		case Calendar.APRIL:
+			dateStr+="4";
+			break;
+		case Calendar.MAY:
+			dateStr+="5";
+			break;
+		case Calendar.JUNE:
+			dateStr+="6";
+			break;
+		case Calendar.JULY:
+			dateStr+="7";
+			break;
+		case Calendar.AUGUST:
+			dateStr+="8";
+			break;
+		case Calendar.SEPTEMBER:
+			dateStr+="9";
+			break;
+		case Calendar.OCTOBER:
+			dateStr+="10";
+			break;
+		case Calendar.NOVEMBER:
+			dateStr+="11";
+			break;
+		case Calendar.DECEMBER:
+			dateStr+="12";
+			break;
+			default:
+		}
+		//day of month
+		dateStr +="-"+cal.get(Calendar.DAY_OF_MONTH)+"  ";
+		//day of week
 		switch(cal.get(Calendar.DAY_OF_WEEK))
 		{
-		case 1:
+		case Calendar.SUNDAY:
 			dateStr += "Sunday";
 			break;
-		case 2:
+		case Calendar.MONDAY:
 			dateStr += "Monday";
 			break;
-		case 3:
+		case Calendar.TUESDAY:
 			dateStr += "Tuesday";
 			break;
-		case 4:
+		case Calendar.WEDNESDAY:
 			dateStr += "Wednesday";
 			break;
-		case 5:
+		case Calendar.THURSDAY:
 			dateStr += "Thursday";
 			break;
-		case 6:
+		case Calendar.FRIDAY:
 			dateStr += "Friday";
 			break;
-		case 7:
+		case Calendar.SATURDAY:
 			dateStr += "Saturday";
 			break;
 			default:
