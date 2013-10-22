@@ -49,6 +49,13 @@ public class WeeklyCompassDBHelper extends SQLiteOpenHelper {
 
 	}
 	
+	@Override
+	public synchronized void close()
+	{
+		db.close();
+		super.close();
+	}
+	
 	/**
 	 * crate week table to record roles&tasks belong to current week
 	 * @param _tableName

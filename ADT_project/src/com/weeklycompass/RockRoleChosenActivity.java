@@ -30,6 +30,7 @@ public class RockRoleChosenActivity extends Activity {
 	TextView textViewTip;
 	ListView listViewItems;
 	Button buttonConfirm;
+	Button buttonAddNew;
 
 	/**
 	 * @see android.app.Activity#onCreate(Bundle)
@@ -41,6 +42,7 @@ public class RockRoleChosenActivity extends Activity {
 		textViewTip = (TextView)findViewById(R.id.textViewTip);
 		listViewItems = (ListView)findViewById(R.id.listViewItems);
 		buttonConfirm = (Button)findViewById(R.id.buttonConfirm);
+		buttonAddNew = (Button)findViewById(R.id.buttonAddNew);
 		
 		listViewItems.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		
@@ -79,6 +81,24 @@ public class RockRoleChosenActivity extends Activity {
 					default:
 				}
 				finish();
+			}
+			
+		});
+		
+		buttonAddNew.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				switch(chooseMode)
+				{
+				case SELECT_ROLE_MODE:
+					launchNewRoleGUI();
+					break;
+				case SELECT_ROCK_MODE:
+					launchNewRockGUI();
+					break;
+					default:
+				}				
 			}
 			
 		});
@@ -132,16 +152,13 @@ public class RockRoleChosenActivity extends Activity {
 		switch(chooseMode)
 		{
 		case SELECT_ROLE_MODE:
-			startActivity(new Intent(this, AddNewRoleActivity.class));
+			launchNewRoleGUI();
 			break;
 		case SELECT_ROCK_MODE:
-			Bundle b = new Bundle();
-			b.putInt("TASK_MODE", TaskDetailInfoActivity.CREATE_NEW_MODE);
-			Intent i = new Intent(this, TaskDetailInfoActivity.class);
-			i.putExtras(b);
-			startActivity(i);
+			launchNewRockGUI();
 			break;
 		default:
+			return false;
 		}
 		return true;
 	}
@@ -155,6 +172,7 @@ public class RockRoleChosenActivity extends Activity {
 		ArrayList<Task> rocks = MainActivity.dbhelper.getAllTasks();
 		ArrayAdapter<Task> adp = new ArrayAdapter<Task>(this, android.R.layout.simple_list_item_multiple_choice, rocks);
 		listViewItems.setAdapter(adp);
+		buttonAddNew.setText(getString(R.string.new_rock));
 		if(listViewItems.getCount()==0)
 		{
 			Toast.makeText(this, R.string.no_rocks, Toast.LENGTH_LONG).show();
@@ -162,7 +180,7 @@ public class RockRoleChosenActivity extends Activity {
 		else
 		{
 			Toast.makeText(this, R.string.create_rock_tip, Toast.LENGTH_LONG).show();
-		}
+		}		
 	}
 	
 	/**
@@ -174,6 +192,7 @@ public class RockRoleChosenActivity extends Activity {
 		ArrayList<Role> roles = MainActivity.dbhelper.getAllRoles();
 		ArrayAdapter<Role> adp = new ArrayAdapter<Role>(this, android.R.layout.simple_list_item_multiple_choice, roles);
 		listViewItems.setAdapter(adp);
+		buttonAddNew.setText(getString(R.string.new_role));
 		if(listViewItems.getCount()==0)
 		{
 			Toast.makeText(this, R.string.no_role, Toast.LENGTH_LONG).show();
@@ -182,5 +201,19 @@ public class RockRoleChosenActivity extends Activity {
 		{
 			Toast.makeText(this, R.string.create_role_tip, Toast.LENGTH_LONG).show();
 		}
+	}
+	
+	private void launchNewRoleGUI()
+	{
+		startActivity(new Intent(this, AddNewRoleActivity.class));
+	}
+	
+	private void launchNewRockGUI()
+	{
+		Bundle b = new Bundle();
+		b.putInt("TASK_MODE", TaskDetailInfoActivity.CREATE_NEW_MODE);
+		Intent i = new Intent(this, TaskDetailInfoActivity.class);
+		i.putExtras(b);
+		startActivity(i);
 	}
 }
