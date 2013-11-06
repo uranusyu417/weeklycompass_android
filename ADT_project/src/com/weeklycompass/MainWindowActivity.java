@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,9 +59,10 @@ public class MainWindowActivity extends Activity {
 		Bundle b = new Bundle();
 		switch(resId)
 		{
-		case R.id.itemSelectRole:
+		/* selecting role obsolete
+		 * case R.id.itemSelectRole:
 			b.putInt("CHOOSE_MODE", RockRoleChosenActivity.SELECT_ROLE_MODE);
-			break;
+			break;*/
 		case R.id.itemSelectRock:
 			b.putInt("CHOOSE_MODE", RockRoleChosenActivity.SELECT_ROCK_MODE);
 			break;

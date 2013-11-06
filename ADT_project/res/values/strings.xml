@@ -19,7 +19,7 @@
     <string name="rock_title">Rock Title</string>
     <string name="rock_status">Rock Status</string>
     <string name="rock_content">Rock Detail</string>
-    <string name="add_to_this_week">ADD TO THIS WEEK PLAN</string>
+    <string name="add_to_this_week">SAVE CHANGE TO THIS WEEK PLAN</string>
     <string name="choose_rock">Choose big rocks for this week</string>
     <string name="choose_role">Choose roles for this week</string>
     <string name="new_role">Create a new role</string>

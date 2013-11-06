@@ -10,18 +10,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class RockRoleChosenActivity extends Activity {
-	static final int SELECT_ROLE_MODE = 1;
+	/* Obsolete roles are automatically added when adding rocks
+	 * static final int SELECT_ROLE_MODE = 1;*/
 	static final int SELECT_ROCK_MODE = 2;
 	/**
 	 * 1 - select role 
@@ -59,7 +56,7 @@ public class RockRoleChosenActivity extends Activity {
 				
 				switch(chooseMode)
 				{
-				case SELECT_ROLE_MODE: // select role
+				/*case SELECT_ROLE_MODE: // select role
 					SparseBooleanArray _selected = listViewItems.getCheckedItemPositions();
 					ArrayList<Role> temp_roles = new ArrayList<Role>();
 					for(int i=0; i<listViewItems.getCount(); i++)
@@ -71,7 +68,7 @@ public class RockRoleChosenActivity extends Activity {
 					}
 					dbhelper.addRolesToWeeklyTable(
 							dbhelper.getWeekTableName(), temp_roles);
-					break;
+					break;*/
 				case SELECT_ROCK_MODE: //select rock
 					RockChooseAdapter adp = (RockChooseAdapter)listViewItems.getAdapter();
 					for(int i=0; i<adp.getCount(); i++)
@@ -91,7 +88,7 @@ public class RockRoleChosenActivity extends Activity {
 							if(WeekPlanSession.getInstance().isTaskOfCurrentWeek(t))
 							{
 								// an old rock is unselected
-								// TODO remove unselected rock from week table
+								dbhelper.removeBigRockFromWeeklyTableById(t.TaskId);
 							}
 						}
 					}
@@ -110,9 +107,9 @@ public class RockRoleChosenActivity extends Activity {
 			public void onClick(View arg0) {
 				switch(chooseMode)
 				{
-				case SELECT_ROLE_MODE:
+				/*case SELECT_ROLE_MODE:
 					launchNewRoleGUI();
-					break;
+					break;*/
 				case SELECT_ROCK_MODE:
 					launchNewRockGUI();
 					break;
@@ -134,9 +131,9 @@ public class RockRoleChosenActivity extends Activity {
 		super.onResume();
 		switch(chooseMode)
 		{
-		case SELECT_ROLE_MODE:
+		/*case SELECT_ROLE_MODE:
 			enterRoleMode();
-			break;
+			break;*/
 		case SELECT_ROCK_MODE:
 			enterRockMode();
 			break;
@@ -152,9 +149,9 @@ public class RockRoleChosenActivity extends Activity {
 		getMenuInflater().inflate(R.menu.choose_window_menu, menu);
 		switch(chooseMode)
 		{
-		case SELECT_ROLE_MODE:
+		/*case SELECT_ROLE_MODE:
 			menu.findItem(R.id.itemCreateNew).setTitle(R.string.new_role);
-			break;
+			break;*/
 		case SELECT_ROCK_MODE:
 			menu.findItem(R.id.itemCreateNew).setTitle(R.string.new_rock);
 			break;
@@ -170,9 +167,9 @@ public class RockRoleChosenActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(chooseMode)
 		{
-		case SELECT_ROLE_MODE:
+		/*case SELECT_ROLE_MODE:
 			launchNewRoleGUI();
-			break;
+			break;*/
 		case SELECT_ROCK_MODE:
 			launchNewRockGUI();
 			break;
@@ -205,7 +202,7 @@ public class RockRoleChosenActivity extends Activity {
 	/**
 	 * load ListView with Roles
 	 */
-	private void enterRoleMode()
+	/*private void enterRoleMode()
 	{
 		textViewTip.setText(getString(R.string.choose_role));
 		ArrayList<Role> roles = dbhelper.getAllRoles();
@@ -225,7 +222,7 @@ public class RockRoleChosenActivity extends Activity {
 	private void launchNewRoleGUI()
 	{
 		startActivity(new Intent(this, AddNewRoleActivity.class));
-	}
+	}*/
 	
 	private void launchNewRockGUI()
 	{

@@ -7,7 +7,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class WeeklyCompassDBHelper extends SQLiteOpenHelper {
@@ -128,8 +127,8 @@ public class WeeklyCompassDBHelper extends SQLiteOpenHelper {
 			while(cursor.moveToNext())
 			{
 				Role _role = new Role();
-				_role.RoleId = cursor.getInt(cursor.getColumnIndex("roles.role_id"));
-				_role.RoleName = cursor.getString(cursor.getColumnIndex("roles.role_name"));
+				_role.RoleId = cursor.getInt(cursor.getColumnIndex("role_id"));
+				_role.RoleName = cursor.getString(cursor.getColumnIndex("role_name"));
 				roles.add(_role);
 			}
 		}
@@ -181,10 +180,10 @@ public class WeeklyCompassDBHelper extends SQLiteOpenHelper {
 			while(cursor.moveToNext())
 			{
 				Task _task = new Task();
-				_task.TaskId = cursor.getInt(cursor.getColumnIndex("tasks.task_id"));
-				_task.TaskTitle = cursor.getString(cursor.getColumnIndex("tasks.task_title"));
-				_task.TaskContent = cursor.getString(cursor.getColumnIndex("tasks.task_content"));
-				_task.TaskStatus = _task.IntToTaskState(cursor.getInt(cursor.getColumnIndex("tasks.task_status")));
+				_task.TaskId = cursor.getInt(cursor.getColumnIndex("task_id"));
+				_task.TaskTitle = cursor.getString(cursor.getColumnIndex("task_title"));
+				_task.TaskContent = cursor.getString(cursor.getColumnIndex("task_content"));
+				_task.TaskStatus = _task.IntToTaskState(cursor.getInt(cursor.getColumnIndex("task_status")));
 				tasks.add(_task);
 			}
 		}
@@ -204,10 +203,10 @@ public class WeeklyCompassDBHelper extends SQLiteOpenHelper {
 		if(cursor.moveToNext())
 		{
 			Task _task = new Task();
-			_task.TaskId = cursor.getInt(cursor.getColumnIndex("tasks.task_id"));
-			_task.TaskTitle = cursor.getString(cursor.getColumnIndex("tasks.task_title"));
-			_task.TaskContent = cursor.getString(cursor.getColumnIndex("tasks.task_content"));
-			_task.TaskStatus = _task.IntToTaskState(cursor.getInt(cursor.getColumnIndex("tasks.task_status")));
+			_task.TaskId = cursor.getInt(cursor.getColumnIndex("task_id"));
+			_task.TaskTitle = cursor.getString(cursor.getColumnIndex("task_title"));
+			_task.TaskContent = cursor.getString(cursor.getColumnIndex("task_content"));
+			_task.TaskStatus = _task.IntToTaskState(cursor.getInt(cursor.getColumnIndex("task_status")));
 			cursor.close();
 			return _task;
 		}
@@ -274,8 +273,8 @@ public class WeeklyCompassDBHelper extends SQLiteOpenHelper {
 		if(cursor.moveToNext())
 		{
 			Role _role = new Role();
-			_role.RoleId = cursor.getInt(cursor.getColumnIndex("roles.role_id"));
-			_role.RoleName = cursor.getString(cursor.getColumnIndex("roles.role_name"));
+			_role.RoleId = cursor.getInt(cursor.getColumnIndex("role_id"));
+			_role.RoleName = cursor.getString(cursor.getColumnIndex("role_name"));
 			cursor.close();
 			return _role;
 		}
@@ -299,7 +298,7 @@ public class WeeklyCompassDBHelper extends SQLiteOpenHelper {
 		Cursor cursor = db.rawQuery(str, null);
 		if(cursor.moveToNext())
 		{
-			int _id = cursor.getInt(cursor.getColumnIndex("roles.role_id"));
+			int _id = cursor.getInt(cursor.getColumnIndex("role_id"));
 			cursor.close();
 			return _id;
 		}
@@ -363,7 +362,11 @@ public class WeeklyCompassDBHelper extends SQLiteOpenHelper {
 		c.put("id", t.TaskId);
 		db.insert(_table, null, c);
 		Role r = getRoleByTaskId(t.TaskId);
-		addRoleToWeeklyTable(_table, r);
+		if(r!=null && !isRoleInWeeklyTable(getWeekTableName(), r))
+		{
+			//role not in week table, add it
+			addRoleToWeeklyTable(_table, r);
+		}
 	}
 	
 	public void addTasksToWeeklyTable(String _table, ArrayList<Task> ts)
@@ -379,7 +382,7 @@ public class WeeklyCompassDBHelper extends SQLiteOpenHelper {
 	 * @param _table week table name
 	 * @param r Role object
 	 */
-	public void addRoleToWeeklyTable(String _table, Role r)
+	private void addRoleToWeeklyTable(String _table, Role r)
 	{
 		if(_table == null || r == null)
 			return;
@@ -389,7 +392,13 @@ public class WeeklyCompassDBHelper extends SQLiteOpenHelper {
 		db.insert(_table, null, c);
 	}
 	
-	public void addRolesToWeeklyTable(String _table, ArrayList<Role> rs)
+	private boolean isRoleInWeeklyTable(String _table, Role r)
+	{
+		ArrayList<Role> roles = getRolesFromWeekTable(_table);
+		return roles.contains(r);
+	}
+	
+	private void addRolesToWeeklyTable(String _table, ArrayList<Role> rs)
 	{
 		for(int i=0;i<rs.size();i++)
 		{
@@ -419,19 +428,20 @@ public class WeeklyCompassDBHelper extends SQLiteOpenHelper {
 	 */
 	public boolean removeBigRockFromWeeklyTableById(int rockId)
 	{
-		//TODO implementation
-		return false;
-	}
-	
-	/**
-	 * Remove one role from weekly table by id. Also remove all big
-	 * rocks associated with this role.
-	 * @param roleId Role ID
-	 * @return true if successful
-	 */
-	public boolean removeRoleFromWeeklyTableById(int roleId)
-	{
-		//TODO implementation
-		return false;
+		if(db.delete(getWeekTableName(), "id="+rockId+" AND id_type=0", null) == 0)
+		{
+			return false;
+		}
+		//check if corresponding role has other rocks in the week
+		Role r = getRoleByTaskId(rockId);
+		if(r != null)
+		{
+			if(getTasksFromWeekTableBasedOnRoleId(getWeekTableName(), r.RoleId).size()==0)
+			{
+				//Corresponding role has no other rocks, remove it also
+				db.delete(getWeekTableName(), "id="+r.RoleId+" AND id_type=1", null);
+			}
+		}
+		return true;
 	}
 }

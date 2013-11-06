@@ -85,6 +85,7 @@ public class RockChooseAdapter extends BaseAdapter {
 		if(WeekPlanSession.getInstance().isTaskOfCurrentWeek(task))
 		{
 			check.setChecked(true);
+			mSelected.put(position, true);
 		}
 		else
 		{

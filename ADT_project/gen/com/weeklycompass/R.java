@@ -26,8 +26,7 @@ public final class R {
         public static final int editTextTaskContent=0x7f08000b;
         public static final int editTextTaskTitle=0x7f08000a;
         public static final int itemCreateNew=0x7f08001d;
-        public static final int itemSelectRock=0x7f08001f;
-        public static final int itemSelectRole=0x7f08001e;
+        public static final int itemSelectRock=0x7f08001e;
         public static final int linearLayout1=0x7f08000e;
         public static final int linearLayout2=0x7f080010;
         public static final int linearLayoutRocks=0x7f08001c;
