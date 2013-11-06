@@ -24,6 +24,8 @@ public class TaskDetailInfoActivity extends Activity {
 	EditText editTextTaskTitle, editTextTaskContent;
 	Button buttonEdit, buttonConfirm, buttonCancel;
 	TextView textViewTaskId;
+	
+	private WeeklyCompassDBHelper dbhelper = WeeklyCompassDBHelper.getInstance();
 	/**
 	 * @see android.app.Activity#onCreate(Bundle)
 	 */
@@ -66,12 +68,12 @@ public class TaskDetailInfoActivity extends Activity {
 				Role _role = (Role)spinnerRole.getSelectedItem();
 				if(task_mode == EDIT_MODE) // edit mode
 				{
-				MainActivity.dbhelper.updateTaskInfo(temp_task, _role);			
+				dbhelper.updateTaskInfo(temp_task, _role);			
 				updateTaskInfo(textViewTaskId.getText().toString());
 				}
 				else if(task_mode == CREATE_NEW_MODE) // create new mode
 				{
-					MainActivity.dbhelper.insertNewTask(temp_task, _role);
+					dbhelper.insertNewTask(temp_task, _role);
 					finish();
 				}
 				enterViewMode();
@@ -184,12 +186,12 @@ public class TaskDetailInfoActivity extends Activity {
 	 */
 	private void updateTaskInfo(String _taskid)
 	{
-		Task t = MainActivity.dbhelper.getTaskById(Integer.valueOf(_taskid));
+		Task t = dbhelper.getTaskById(Integer.valueOf(_taskid));
 		textViewTaskId.setText(Integer.toString(t.TaskId));
 		editTextTaskTitle.setText(t.TaskTitle);
 		editTextTaskContent.setText(t.TaskContent);
 		spinnerTaskStatus.setSelection(t.TaskStateToInt(t.TaskStatus));
-		Role associateRole = MainActivity.dbhelper.getRoleByTaskId(Integer.valueOf(_taskid));
+		Role associateRole = dbhelper.getRoleByTaskId(Integer.valueOf(_taskid));
 		if(associateRole != null)
 		{
 			ArrayAdapter<Role> adp = (ArrayAdapter<Role>)spinnerRole.getAdapter();
@@ -205,7 +207,7 @@ public class TaskDetailInfoActivity extends Activity {
 	{
 		ArrayAdapter<Role> role_adp = new ArrayAdapter<Role>(this, 
 				android.R.layout.simple_spinner_item,
-				MainActivity.dbhelper.getAllRoles());
+				dbhelper.getAllRoles());
 		role_adp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinnerRole.setAdapter(role_adp);
 		if(spinnerRole.getCount()==0)

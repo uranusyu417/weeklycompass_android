@@ -160,10 +160,11 @@ public class MainWindowActivity extends Activity {
 	 */
 	private void loadRocks()
 	{
-		if(MainActivity.dbhelper!=null)
+		WeeklyCompassDBHelper dbhelper = WeeklyCompassDBHelper.getInstance();
+		if(dbhelper!=null)
 		{
-			ArrayList<Role> weeklyRoles = MainActivity.dbhelper.getRolesFromWeekTable(
-					MainActivity.dbhelper.getWeekTableName());
+			ArrayList<Role> weeklyRoles = dbhelper.getRolesFromWeekTable(
+					dbhelper.getWeekTableName());
 			LinearLayout l = (LinearLayout)findViewById(R.id.linearLayoutRocks);
 			l.removeAllViews();
 			if(weeklyRoles.size()>0)
@@ -173,8 +174,8 @@ public class MainWindowActivity extends Activity {
 					RoleRocksLayout rrl = new RoleRocksLayout(getApplicationContext());
 					rrl.setRoleInfo(weeklyRoles.get(i));
 					rrl.setRocks(
-							MainActivity.dbhelper.getTasksFromWeekTableBasedOnRoleId(
-									MainActivity.dbhelper.getWeekTableName(), 
+							dbhelper.getTasksFromWeekTableBasedOnRoleId(
+									dbhelper.getWeekTableName(), 
 									weeklyRoles.get(i).RoleId)
 								);				
 					l.addView(rrl);

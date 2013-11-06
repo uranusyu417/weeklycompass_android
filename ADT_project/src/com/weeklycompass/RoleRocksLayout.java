@@ -66,7 +66,7 @@ public class RoleRocksLayout extends LinearLayout implements OnItemClickListener
 				                                   listItems, 
 				                                   R.layout.rock_item, 
 				                                   new String[] {"textViewRockId", "textViewRockTitle"}, 
-				                                   new int[] {R.id.textViewRockId, R.id.textViewRockTitle}));
+				                                   new int[] {R.id.textViewRockId, R.id.textViewListViewItemTitle}));
 	}
 
 	@Override

@@ -12,12 +12,36 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class WeeklyCompassDBHelper extends SQLiteOpenHelper {
 	
+	static private WeeklyCompassDBHelper instance = null;
+	
 	private SQLiteDatabase db;
 
-	public WeeklyCompassDBHelper(Context context, String _dbname, int _dbversion) {
+	private WeeklyCompassDBHelper(Context context, String _dbname, int _dbversion) {
 		// dbversion should be consistent with attribute "android:versionCode"
 		super(context, _dbname, null, _dbversion);
 		db = getWritableDatabase();
+	}
+	
+	/**
+	 * get initialized singleton instance
+	 * @return
+	 */
+	public static WeeklyCompassDBHelper getInstance()
+	{
+		return instance;
+	}
+	
+	/**
+	 * initialize db helper
+	 * @param context
+	 * @param _dbname
+	 * @param _dbversion
+	 * @return instance or null for failure
+	 */
+	public static WeeklyCompassDBHelper Initialize(Context context, String _dbname, int _dbversion)
+	{
+		instance = new WeeklyCompassDBHelper(context, _dbname, _dbversion);
+		return instance;
 	}
 
 	@Override
@@ -45,7 +69,7 @@ public class WeeklyCompassDBHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onUpgrade(SQLiteDatabase arg0, int arg1, int arg2) {
-		// TODO Auto-generated method stub
+		// TODO action to perform when DB upgrading
 
 	}
 	
@@ -111,6 +135,27 @@ public class WeeklyCompassDBHelper extends SQLiteOpenHelper {
 		}
 		cursor.close();
 		return roles;
+	}
+	
+	public ArrayList<Role> getSelectedRolesOfCurrentWeek()
+	{
+		return getRolesFromWeekTable(getWeekTableName());
+	}
+	
+	public ArrayList<Task> getSelectedRocksOfCurrentWeek()
+	{
+		ArrayList<Task> tasks = new ArrayList<Task>();
+		Cursor cursor = db.query(getWeekTableName(), null, "id_type=0", null, null, null, null);
+		while(cursor.moveToNext())
+		{
+			Task t = getTaskById(cursor.getInt(cursor.getColumnIndex("id")));
+			if(t != null)
+			{
+				tasks.add(t);
+			}
+		}
+		cursor.close();
+		return tasks;
 	}
 	
 	/**
@@ -363,5 +408,30 @@ public class WeeklyCompassDBHelper extends SQLiteOpenHelper {
 		ContentValues c = new ContentValues();
 		c.put("role_name", role_name);
 		db.insert("roles", null, c);
+	}
+	
+	/**
+	 * Remove one big rock from weekly table by id, after removal,
+	 * check if the corresponding role has no rocks left. if so, 
+	 * remove the corresponding role from weekly table also.
+	 * @param rockId big rock ID
+	 * @return true if successful
+	 */
+	public boolean removeBigRockFromWeeklyTableById(int rockId)
+	{
+		//TODO implementation
+		return false;
+	}
+	
+	/**
+	 * Remove one role from weekly table by id. Also remove all big
+	 * rocks associated with this role.
+	 * @param roleId Role ID
+	 * @return true if successful
+	 */
+	public boolean removeRoleFromWeeklyTableById(int roleId)
+	{
+		//TODO implementation
+		return false;
 	}
 }

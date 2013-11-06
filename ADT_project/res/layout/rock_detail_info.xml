@@ -37,7 +37,7 @@
             android:inputType="textMultiLine" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/textViewListViewItemRole"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/rock_content" android:layout_below="@id/editTextTaskTitle" android:layout_centerHorizontal="true" style="@style/rock_style" android:layout_marginTop="5dp"/>
@@ -47,7 +47,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@id/textView2"
+            android:layout_below="@id/textViewListViewItemRole"
             android:inputType="textMultiLine" >
         </EditText>
 

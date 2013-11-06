@@ -24,7 +24,11 @@ public class AddNewRoleActivity extends Activity {
 
 			@Override
 			public void onClick(View arg0) {
-				MainActivity.dbhelper.insertNewRole(editTextRoleName.getText().toString());
+				WeeklyCompassDBHelper dbhelper = WeeklyCompassDBHelper.getInstance();
+				if(dbhelper != null)
+				{
+					dbhelper.insertNewRole(editTextRoleName.getText().toString());
+				}
 				finish();
 			}
 			

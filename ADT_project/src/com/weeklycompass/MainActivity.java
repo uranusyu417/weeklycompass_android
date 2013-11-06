@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.widget.ProgressBar;
 
 public class MainActivity extends Activity {
-	public static WeeklyCompassDBHelper dbhelper = null;
 	ProgressBar loadingpb = null;
 
     /** Called when the activity is first created. */
@@ -21,7 +20,7 @@ public class MainActivity extends Activity {
             int dbversion = 0;
             String dbname = getString(R.string.DB_NAME);
         	dbversion = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
-			dbhelper = new WeeklyCompassDBHelper(getApplicationContext(), dbname, dbversion);
+        	WeeklyCompassDBHelper dbhelper = WeeklyCompassDBHelper.Initialize(getApplicationContext(), dbname, dbversion);
 			if( dbhelper != null)
 			{
 				dbhelper.createWeeklyTasks(dbhelper.getWeekTableName());
@@ -36,6 +35,7 @@ public class MainActivity extends Activity {
 	 */
 	@Override
 	protected void onDestroy() {
+		WeeklyCompassDBHelper dbhelper = WeeklyCompassDBHelper.getInstance();
 		if(dbhelper!=null)
 		{
 			dbhelper.close();

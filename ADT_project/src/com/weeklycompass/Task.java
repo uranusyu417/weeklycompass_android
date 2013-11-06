@@ -21,6 +21,12 @@ public class Task {
 		return TaskTitle;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		Task t = (Task)o;
+		return this.TaskId == t.TaskId;
+	}
+
 	public int TaskStateToInt(TASKSTATE state)
 	{
 		if(state == TASKSTATE.NOT_STARTED)

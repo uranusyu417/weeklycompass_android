@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -31,6 +32,8 @@ public class RockRoleChosenActivity extends Activity {
 	ListView listViewItems;
 	Button buttonConfirm;
 	Button buttonAddNew;
+	
+	private WeeklyCompassDBHelper dbhelper;
 
 	/**
 	 * @see android.app.Activity#onCreate(Bundle)
@@ -38,6 +41,9 @@ public class RockRoleChosenActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		dbhelper = WeeklyCompassDBHelper.getInstance();
+		
 		setContentView(R.layout.rock_role_chosen);
 		textViewTip = (TextView)findViewById(R.id.textViewTip);
 		listViewItems = (ListView)findViewById(R.id.listViewItems);
@@ -49,12 +55,12 @@ public class RockRoleChosenActivity extends Activity {
 		buttonConfirm.setOnClickListener(new OnClickListener(){
 
 			@Override
-			public void onClick(View arg0) {
-				SparseBooleanArray _selected = listViewItems.getCheckedItemPositions();
+			public void onClick(View arg0) {			
 				
 				switch(chooseMode)
 				{
 				case SELECT_ROLE_MODE: // select role
+					SparseBooleanArray _selected = listViewItems.getCheckedItemPositions();
 					ArrayList<Role> temp_roles = new ArrayList<Role>();
 					for(int i=0; i<listViewItems.getCount(); i++)
 					{
@@ -63,23 +69,36 @@ public class RockRoleChosenActivity extends Activity {
 							temp_roles.add((Role)listViewItems.getItemAtPosition(i));
 						}
 					}
-					MainActivity.dbhelper.addRolesToWeeklyTable(
-							MainActivity.dbhelper.getWeekTableName(), temp_roles);
+					dbhelper.addRolesToWeeklyTable(
+							dbhelper.getWeekTableName(), temp_roles);
 					break;
 				case SELECT_ROCK_MODE: //select rock
-					ArrayList<Task> temp_rocks = new ArrayList<Task>();
-					for(int i=0; i<listViewItems.getCount(); i++)
+					RockChooseAdapter adp = (RockChooseAdapter)listViewItems.getAdapter();
+					for(int i=0; i<adp.getCount(); i++)
 					{
-						if(_selected.get(i))
+						if(adp.getmSelected().get(i).equals(true))
 						{
-							temp_rocks.add((Task)listViewItems.getItemAtPosition(i));
+							Task t = (Task)adp.getItem(i);
+							if(!WeekPlanSession.getInstance().isTaskOfCurrentWeek(t))
+							{
+								// a new selected big rock
+								dbhelper.addTaskToWeeklyTable(dbhelper.getWeekTableName(), t);
+							}
+						}
+						else
+						{
+							Task t = (Task)adp.getItem(i);
+							if(WeekPlanSession.getInstance().isTaskOfCurrentWeek(t))
+							{
+								// an old rock is unselected
+								// TODO remove unselected rock from week table
+							}
 						}
 					}
-					MainActivity.dbhelper.addTasksToWeeklyTable(
-							MainActivity.dbhelper.getWeekTableName(), temp_rocks);
 					break;
 					default:
 				}
+				WeekPlanSession.getInstance().refreshData();
 				finish();
 			}
 			
@@ -169,9 +188,9 @@ public class RockRoleChosenActivity extends Activity {
 	private void enterRockMode()
 	{
 		textViewTip.setText(getString(R.string.choose_rock));
-		ArrayList<Task> rocks = MainActivity.dbhelper.getAllTasks();
-		ArrayAdapter<Task> adp = new ArrayAdapter<Task>(this, android.R.layout.simple_list_item_multiple_choice, rocks);
-		listViewItems.setAdapter(adp);
+		ArrayList<Task> rocks = dbhelper.getAllTasks();
+		RockChooseAdapter dp = new RockChooseAdapter(this, rocks);
+		listViewItems.setAdapter(dp);
 		buttonAddNew.setText(getString(R.string.new_rock));
 		if(listViewItems.getCount()==0)
 		{
@@ -189,7 +208,7 @@ public class RockRoleChosenActivity extends Activity {
 	private void enterRoleMode()
 	{
 		textViewTip.setText(getString(R.string.choose_role));
-		ArrayList<Role> roles = MainActivity.dbhelper.getAllRoles();
+		ArrayList<Role> roles = dbhelper.getAllRoles();
 		ArrayAdapter<Role> adp = new ArrayAdapter<Role>(this, android.R.layout.simple_list_item_multiple_choice, roles);
 		listViewItems.setAdapter(adp);
 		buttonAddNew.setText(getString(R.string.new_role));

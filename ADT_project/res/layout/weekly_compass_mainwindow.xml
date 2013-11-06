@@ -18,7 +18,7 @@
             android:text="@string/title" style="@style/title_style"/>
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/textViewListViewItemRole"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textView1"
@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:text="@string/date" style="@style/date_style" android:layout_below="@id/textView2" android:layout_marginTop="10dp"/>
+            android:text="@string/date" style="@style/date_style" android:layout_below="@id/textViewListViewItemRole" android:layout_marginTop="10dp"/>
 
         <LinearLayout
             android:id="@+id/linearLayout1"
