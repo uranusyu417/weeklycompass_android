@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -71,6 +73,19 @@ public class RockChooseAdapter extends BaseAdapter {
 		Task task = mTasks.get(position);
 		
 		title.setText(task.TaskTitle);
+		
+		title.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View arg0) {
+				Intent i = new Intent(arg0.getContext(), TaskDetailInfoActivity.class);
+				i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				Bundle b = new Bundle();
+				b.putInt("TASK_MODE", TaskDetailInfoActivity.VIEW_MODE);
+				b.putString("TASK_ID", String.valueOf(mTasks.get(position).TaskId));
+				i.putExtras(b);
+				arg0.getContext().startActivity(i);
+			}});
 		
 		Role r = WeeklyCompassDBHelper.getInstance().getRoleByTaskId(task.TaskId);
 		if(r != null)
