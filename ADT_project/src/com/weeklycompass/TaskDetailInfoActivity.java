@@ -43,7 +43,8 @@ public class TaskDetailInfoActivity extends Activity {
 		textViewTaskId = (TextView)findViewById(R.id.textViewTaskId);
 		
 		//prepare task status
-		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.rock_state, android.R.layout.simple_spinner_item);
+		ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, 
+				R.array.rock_state, android.R.layout.simple_spinner_item);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinnerTaskStatus.setAdapter(adapter);
 		
@@ -195,7 +196,8 @@ public class TaskDetailInfoActivity extends Activity {
 		if(associateRole != null)
 		{
 			ArrayAdapter<Role> adp = (ArrayAdapter<Role>)spinnerRole.getAdapter();
-			spinnerRole.setSelection(adp.getPosition(associateRole));
+			int pos = adp.getPosition(associateRole);
+			spinnerRole.setSelection(pos, true);
 		}
 		updateInfoFromGUIToTempTaskObj();
 	}
@@ -205,6 +207,8 @@ public class TaskDetailInfoActivity extends Activity {
 	 */
 	private void prepareSpinnerRole()
 	{
+		//record pre-selected role
+		int pos = spinnerRole.getSelectedItemPosition();
 		ArrayAdapter<Role> role_adp = new ArrayAdapter<Role>(this, 
 				android.R.layout.simple_spinner_item,
 				dbhelper.getAllRoles());
@@ -213,6 +217,10 @@ public class TaskDetailInfoActivity extends Activity {
 		if(spinnerRole.getCount()==0)
 		{
 			Toast.makeText(this, R.string.no_role, Toast.LENGTH_SHORT).show();
+		}
+		else
+		{
+			spinnerRole.setSelection(pos);
 		}
 	}
 	

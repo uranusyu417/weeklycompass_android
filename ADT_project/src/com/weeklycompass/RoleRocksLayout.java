@@ -43,6 +43,7 @@ public class RoleRocksLayout extends LinearLayout implements OnItemClickListener
 		tv.setText(R.string.rock);
 		listViewRocks.addHeaderView(tv, null, false);
 		listViewRocks.setOnItemClickListener(this);
+		listViewRocks.setScrollContainer(false);
 	}
 	
 	void setRoleInfo(Role role)

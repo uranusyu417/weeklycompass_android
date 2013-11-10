@@ -10,7 +10,22 @@ public class Task {
 	{
 		NOT_STARTED,
 		IN_PROGRESS,
-		FINISHED
+		FINISHED;
+
+		@Override
+		public String toString() {
+			switch(this)
+			{
+			case NOT_STARTED:
+				return "NOT START";
+			case IN_PROGRESS:
+				return "IN PROGRESS";
+			case FINISHED:
+				return "COMPLETED";
+				default:
+					return "";
+			}
+		}
 	}
 	
 	/* (non-Javadoc)

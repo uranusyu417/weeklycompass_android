@@ -17,7 +17,7 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int buttonAddNew=0x7f080015;
+        public static final int buttonAddNew=0x7f080014;
         public static final int buttonCancel=0x7f080011;
         public static final int buttonConfirm=0x7f080004;
         public static final int buttonEdit=0x7f08000f;
@@ -25,23 +25,24 @@ public final class R {
         public static final int editTextRoleName=0x7f080003;
         public static final int editTextTaskContent=0x7f08000b;
         public static final int editTextTaskTitle=0x7f08000a;
-        public static final int itemCreateNew=0x7f08001d;
-        public static final int itemSelectRock=0x7f08001e;
+        public static final int itemCreateNew=0x7f08001e;
+        public static final int itemSelectRock=0x7f08001f;
         public static final int linearLayout1=0x7f08000e;
         public static final int linearLayout2=0x7f080010;
-        public static final int linearLayoutRocks=0x7f08001c;
-        public static final int listViewItems=0x7f080014;
+        public static final int linearLayoutRocks=0x7f08001d;
+        public static final int listViewItems=0x7f080015;
         public static final int listViewRocks=0x7f080018;
         public static final int progressBarLoading=0x7f080001;
         public static final int relativeLayout1=0x7f080000;
-        public static final int relativeLayout2=0x7f08001a;
+        public static final int relativeLayout2=0x7f08001b;
         public static final int spinnerRole=0x7f080008;
         public static final int spinnerTaskStatus=0x7f08000d;
-        public static final int textView1=0x7f080002;
+        public static final int textView1=0x7f080019;
         public static final int textView3=0x7f08000c;
-        public static final int textView4=0x7f08001b;
-        public static final int textViewDate=0x7f080019;
+        public static final int textView4=0x7f08001c;
+        public static final int textViewDate=0x7f08001a;
         public static final int textViewListViewItemRole=0x7f080006;
+        public static final int textViewListViewItemStatus=0x7f080002;
         public static final int textViewListViewItemTitle=0x7f080005;
         public static final int textViewRockId=0x7f080012;
         public static final int textViewRoleId=0x7f080016;

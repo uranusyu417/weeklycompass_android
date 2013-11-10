@@ -243,8 +243,7 @@ public class WeeklyCompassDBHelper extends SQLiteOpenHelper {
 	 */
 	public ArrayList<Task> getAllTasks()
 	{
-		String str = "SELECT * from tasks";
-		Cursor cursor = db.rawQuery(str, null);
+		Cursor cursor = db.query("tasks", null, null, null, null, null, "role_id");
 		ArrayList<Task> tasks = new ArrayList<Task>();
 		while(cursor.moveToNext())
 		{

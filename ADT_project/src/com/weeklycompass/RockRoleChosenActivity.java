@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.HeaderViewListAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,7 +46,9 @@ public class RockRoleChosenActivity extends Activity {
 		setContentView(R.layout.rock_role_chosen);
 		textViewTip = (TextView)findViewById(R.id.textViewTip);
 		listViewItems = (ListView)findViewById(R.id.listViewItems);
-		buttonConfirm = (Button)findViewById(R.id.buttonConfirm);
+		buttonConfirm = new Button(this);
+		buttonConfirm.setText(R.string.add_to_this_week);
+		listViewItems.addFooterView(buttonConfirm, null, false);
 		buttonAddNew = (Button)findViewById(R.id.buttonAddNew);
 		
 		listViewItems.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -70,10 +74,11 @@ public class RockRoleChosenActivity extends Activity {
 							dbhelper.getWeekTableName(), temp_roles);
 					break;*/
 				case SELECT_ROCK_MODE: //select rock
-					RockChooseAdapter adp = (RockChooseAdapter)listViewItems.getAdapter();
+					HeaderViewListAdapter tt = (HeaderViewListAdapter)listViewItems.getAdapter();
+					RockChooseAdapter adp = (RockChooseAdapter)tt.getWrappedAdapter();
 					for(int i=0; i<adp.getCount(); i++)
 					{
-						if(adp.getmSelected().get(i).equals(true))
+						if(adp.getmSelected().get(i) == true)
 						{
 							Task t = (Task)adp.getItem(i);
 							if(!WeekPlanSession.getInstance().isTaskOfCurrentWeek(t))

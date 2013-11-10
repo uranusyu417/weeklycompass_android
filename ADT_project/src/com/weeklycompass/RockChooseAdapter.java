@@ -10,6 +10,8 @@ import java.util.HashMap;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.SparseArray;
+import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -24,13 +26,13 @@ import android.widget.TextView;
 public class RockChooseAdapter extends BaseAdapter {
 	Context mContext;
 	ArrayList<Task> mTasks;
-	HashMap<Integer, Boolean> mSelected;
+	SparseBooleanArray mSelected;
 	
 	public RockChooseAdapter(Context context, ArrayList<Task> tasks)
 	{
 		mContext = context;
 		mTasks = tasks;
-		mSelected = new HashMap<Integer, Boolean>();
+		mSelected = new SparseBooleanArray();
 		for(int i=0;i<mTasks.size();i++)
 		{
 			mSelected.put(i, false);
@@ -69,12 +71,12 @@ public class RockChooseAdapter extends BaseAdapter {
 		View view = View.inflate(mContext, R.layout.rock_choose_listview_item, null);
 		TextView title = (TextView)view.findViewById(R.id.textViewListViewItemTitle);
 		TextView role = (TextView)view.findViewById(R.id.textViewListViewItemRole);
+		TextView status = (TextView)view.findViewById(R.id.textViewListViewItemStatus);
 		CheckBox check = (CheckBox)view.findViewById(R.id.checkBoxRockSelection);
 		Task task = mTasks.get(position);
 		
 		title.setText(task.TaskTitle);
-		
-		title.setOnClickListener(new OnClickListener(){
+		((View)title.getParent()).setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View arg0) {
@@ -96,6 +98,8 @@ public class RockChooseAdapter extends BaseAdapter {
 		{
 			role.setText("");
 		}
+		
+		status.setText(task.TaskStatus.toString());
 		
 		if(WeekPlanSession.getInstance().isTaskOfCurrentWeek(task))
 		{
@@ -128,7 +132,7 @@ public class RockChooseAdapter extends BaseAdapter {
 	/**
 	 * @return the mSelected
 	 */
-	public HashMap<Integer, Boolean> getmSelected() {
+	public SparseBooleanArray getmSelected() {
 		return mSelected;
 	}
 }
